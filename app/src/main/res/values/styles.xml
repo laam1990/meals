@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="InputStyle" parent="Widget.AppCompat.EditText">
+        <item name="android:height">48dp</item>
+        <item name="android:minHeight">48dp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:fontFamily">@font/rb_roboto_regular</item>
+        <item name="android:textSize">16dp</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:layout_height">48dp</item>
+        <item name="android:background">@drawable/bg_rounded_16</item>
+        <item name="android:textColorHint">@color/white</item>
+        <item name="android:hint">Search Meal</item>
+        <item name="android:paddingStart">16dp</item>
+        <item name="android:inputType">text</item>
+        <item name="android:textCursorDrawable">@drawable/et_cursor</item>
+    </style>
+
+</resources>
