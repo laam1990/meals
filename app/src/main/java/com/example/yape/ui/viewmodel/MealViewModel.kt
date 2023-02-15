@@ -26,9 +26,7 @@ class MealViewModel @Inject constructor(
     val mealFromIngredientLiveData: LiveData<Resource<BaseResponseData<Meal>>>
         get() = _mealFromIngredientLiveData
 
-    private val _detailMealFromIDLiveData = MutableLiveData<Resource<BaseResponseData<MealDetail>>>()
-    val detailMealFromIDLiveData: LiveData<Resource<BaseResponseData<MealDetail>>>
-        get() = _detailMealFromIDLiveData
+
 
     fun getMeals(name: String) {
         viewModelScope.launch {
@@ -46,11 +44,5 @@ class MealViewModel @Inject constructor(
         }
     }
 
-    fun getDetailMealsFromID(id: String) {
-        viewModelScope.launch {
-            repository.getDetailMealFromID(id).collect {
-                _detailMealFromIDLiveData.value = it
-            }
-        }
-    }
+
 }

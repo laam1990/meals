@@ -68,12 +68,8 @@ class MealFragment : Fragment() {
     private fun initObservers() {
         viewModel.mealListLiveData.observe(viewLifecycleOwner) { result ->
             when (result) {
-                is Resource.Error -> {
-
-                }
-                is Resource.Loading -> {
-
-                }
+                is Resource.Error -> {}
+                is Resource.Loading -> {}
                 is Resource.Success -> {
                     result.data?.meals?.let {
                         configureRecyclerView(it)
@@ -91,7 +87,10 @@ class MealFragment : Fragment() {
             mealAdapter.meal = list.toMutableList()
         }
 
-        mealAdapter.onItemClick = {
+        mealAdapter.onItemClick = { it ->
+            it.idMeal?.let { id ->
+                listener?.goToDetail(id)
+            }
             Toast.makeText(context, "PRUEBA CLICK ${it.strMeal}", Toast.LENGTH_LONG).show()
         }
     }
@@ -103,5 +102,4 @@ class MealFragment : Fragment() {
     companion object {
         const val COLUMN_COUNTER = 3
     }
-
 }

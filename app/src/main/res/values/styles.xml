@@ -11,7 +11,7 @@
         <item name="android:layout_height">48dp</item>
         <item name="android:background">@drawable/bg_rounded_16</item>
         <item name="android:textColorHint">@color/white</item>
-        <item name="android:hint">Search Meal</item>
+        <item name="android:hint">@string/hint_edit_text_meals</item>
         <item name="android:paddingStart">16dp</item>
         <item name="android:inputType">text</item>
         <item name="android:textCursorDrawable">@drawable/et_cursor</item>

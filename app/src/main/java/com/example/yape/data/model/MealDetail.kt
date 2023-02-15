@@ -2,6 +2,7 @@ package com.example.yape.data.model
 
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
+import kotlin.reflect.full.memberProperties
 
 @JsonClass(generateAdapter = true)
 data class MealDetail(
@@ -143,5 +144,17 @@ data class MealDetail(
             "Vietnamese" -> "VN"
             else -> ""
         }
+    }
+
+    fun getIngredientsList(): List<String> {
+        val ingredientsList = mutableListOf<String>()
+        for (i in 1..20) {
+            val measure = MealDetail::class.memberProperties.find { it.name == "strMeasure$i" }?.get(this) as? String
+            val ingredient = MealDetail::class.memberProperties.find { it.name == "strIngredient$i" }?.get(this) as? String
+            if (!measure.isNullOrBlank() && !ingredient.isNullOrBlank()) {
+                ingredientsList.add("$measure $ingredient")
+            }
+        }
+        return ingredientsList
     }
 }

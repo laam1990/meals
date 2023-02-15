@@ -5,9 +5,26 @@
     android:id="@+id/nav_graph_meal"
     app:startDestination="@id/meals">
 
+    <action
+        android:id="@+id/action_to_onboardingWelcomeFragment"
+        app:destination="@id/mealDetail"
+        app:enterAnim="@anim/fade_in"
+        app:exitAnim="@anim/fade_out"
+        app:popEnterAnim="@anim/fade_in"
+        app:popExitAnim="@anim/fade_out" />
+
     <fragment
         android:id="@+id/meals"
         android:name="com.example.yape.ui.fragment.MealFragment"
         tools:layout="@layout/fragment_meal_list"/>
+
+    <fragment
+        android:id="@+id/mealDetail"
+        android:name="com.example.yape.ui.fragment.MealDetailFragment"
+        tools:layout="@layout/fragment_meal_detail">
+        <argument
+            android:name="strMeal"
+            app:argType="string" />
+    </fragment>
 
 </navigation>
