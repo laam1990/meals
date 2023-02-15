@@ -1,4 +1,4 @@
-package com.example.yape.ui.fragment
+package com.example.yape.ui.adapter
 
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater

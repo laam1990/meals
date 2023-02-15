@@ -17,4 +17,13 @@
         <item name="android:textCursorDrawable">@drawable/et_cursor</item>
     </style>
 
+    <style name="PrimaryButton" parent="Button1">
+        <item name="android:background">@drawable/bg_rounded_16</item>
+        <item name="android:paddingStart">18dp</item>
+        <item name="android:paddingEnd">18dp</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:minHeight">48dp</item>
+        <item name="android:gravity">center</item>
+    </style>
+
 </resources>

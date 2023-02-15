@@ -13,6 +13,7 @@ import androidx.fragment.app.viewModels
 import com.example.yape.data.model.MealDetail
 import com.example.yape.data.util.Resource
 import com.example.yape.databinding.FragmentMealListBinding
+import com.example.yape.ui.adapter.MyItemMealRecyclerViewAdapter
 import com.example.yape.ui.viewmodel.MealViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.Locale
@@ -91,7 +92,6 @@ class MealFragment : Fragment() {
             it.idMeal?.let { id ->
                 listener?.goToDetail(id)
             }
-            Toast.makeText(context, "PRUEBA CLICK ${it.strMeal}", Toast.LENGTH_LONG).show()
         }
     }
 

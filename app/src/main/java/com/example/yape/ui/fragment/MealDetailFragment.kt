@@ -7,14 +7,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.LinearLayoutManager
 import coil.load
 import com.example.yape.data.model.MealDetail
 import com.example.yape.data.util.Resource
 import com.example.yape.databinding.FragmentMealDetailBinding
+import com.example.yape.ui.adapter.IngredientsMealRecyclerViewAdapter
 import com.example.yape.ui.viewmodel.MealDetailViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlin.reflect.KClass
-import kotlin.reflect.full.memberProperties
 
 @AndroidEntryPoint
 class MealDetailFragment : Fragment() {
@@ -22,6 +22,7 @@ class MealDetailFragment : Fragment() {
     private var binding: FragmentMealDetailBinding? = null
     private val viewModel: MealDetailViewModel by viewModels()
     private val args: MealDetailFragmentArgs by navArgs()
+    private val ingredientsAdapter by lazy { IngredientsMealRecyclerViewAdapter() }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -65,10 +66,17 @@ class MealDetailFragment : Fragment() {
             ivMeal.load(mealDetail.strMealThumb) {
                 crossfade(true)
             }
-
             tvMeal.text = mealDetail.strMeal
+            configureRecyclerView(mealDetail.getIngredientsList())
+        }
+    }
 
-
+    private fun configureRecyclerView(list: List<String>) {
+        binding?.rvIngredient?.apply {
+            layoutManager = LinearLayoutManager(context)
+            setHasFixedSize(true)
+            adapter = ingredientsAdapter
+            ingredientsAdapter.ingredients = list.toMutableList()
         }
     }
 }

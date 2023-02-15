@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.fragment.MealDetailFragment"
-    android:background="@color/colorSecondary">
+    android:background="@color/colorPrimary">
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/iv_meal"
@@ -16,7 +16,7 @@
         android:text="@string/hello_blank_fragment"
         app:layout_constraintBottom_toTopOf="@+id/gl_root_horizontal_20"
         app:layout_constraintTop_toTopOf="parent"
-        tools:src="@mipmap/ic_launcher" />
+        />
 
     <TextView
         android:id="@+id/tv_meal"
@@ -35,7 +35,8 @@
         android:layout_height="0dp"
         android:background="@drawable/bg_rounded_top_16"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/gl_root_horizontal_35">
+        app:layout_constraintTop_toTopOf="@+id/gl_root_horizontal_35"
+        app:layout_constraintVertical_bias="0.0">
 
         <TextView
             android:id="@+id/tv_ingredient_title"
@@ -44,11 +45,37 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:layout_marginTop="8dp"
+            android:text="@string/ingredients"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:text="@string/ingredients" />
-        
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_ingredient"
+            android:name="com.example.yape.ui.fragment.MealFragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="4dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintTop_toBottomOf="@+id/tv_ingredient_title"
+            tools:context=".ui.fragment.MealFragment"
+            tools:layout_editor_absoluteX="16dp"
+            tools:listitem="@layout/fragment_ingredient"
+            tools:orientation="vertical" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_action"
+            style="@style/PrimaryButton"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginBottom="16dp"
+            android:text="@string/origin_meal_google_maps"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.Guideline
