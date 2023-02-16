@@ -1,10 +1,12 @@
 package com.example.yape.ui.fragment
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -23,6 +25,8 @@ class MealDetailFragment : Fragment() {
     private val viewModel: MealDetailViewModel by viewModels()
     private val args: MealDetailFragmentArgs by navArgs()
     private val ingredientsAdapter by lazy { IngredientsMealRecyclerViewAdapter() }
+    private var listener: MealDetailListener? = null
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,6 +41,21 @@ class MealDetailFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initViews()
         initObservers()
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        listener = context as? MealDetailListener
+    }
+
+    override fun onDetach() {
+        listener = null
+        super.onDetach()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        binding = null
     }
 
     private fun initViews() {
@@ -68,6 +87,13 @@ class MealDetailFragment : Fragment() {
             }
             tvMeal.text = mealDetail.strMeal
             configureRecyclerView(mealDetail.getIngredientsList())
+
+            val areaCode = mealDetail.convertToCountryCode()
+
+            btnAction.setOnClickListener {
+                Toast.makeText(context, mealDetail.convertToCountryCode(), Toast.LENGTH_LONG).show()
+                listener?.goToMap(mealDetail.convertToCountryCode())
+            }
         }
     }
 
@@ -78,5 +104,9 @@ class MealDetailFragment : Fragment() {
             adapter = ingredientsAdapter
             ingredientsAdapter.ingredients = list.toMutableList()
         }
+    }
+
+    interface MealDetailListener {
+        fun goToMap(areaCode: String)
     }
 }

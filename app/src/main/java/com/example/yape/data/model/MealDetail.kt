@@ -113,7 +113,7 @@ data class MealDetail(
     @Json(name = "strYoutube")
     val strYoutube: String?
 ) {
-    fun convertToCountryCode(strArea: String): String {
+    fun convertToCountryCode(): String {
         return when (strArea) {
             "American" -> "US"
             "British" -> "GB"

@@ -6,11 +6,12 @@ import androidx.navigation.findNavController
 import com.example.yape.NavGraphMealDirections
 import com.example.yape.R
 import com.example.yape.databinding.ActivityMainBinding
+import com.example.yape.ui.fragment.MealDetailFragment
 import com.example.yape.ui.fragment.MealFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity(), MealFragment.MealListListener {
+class MainActivity : AppCompatActivity(), MealFragment.MealListListener, MealDetailFragment.MealDetailListener {
 
     private lateinit var binding: ActivityMainBinding
 
@@ -21,7 +22,12 @@ class MainActivity : AppCompatActivity(), MealFragment.MealListListener {
     }
 
     override fun goToDetail(id: String) {
-        val action = NavGraphMealDirections.actionToOnboardingWelcomeFragment(id)
+        val action = NavGraphMealDirections.actionToMealDetail(id)
+        findNavController(R.id.nav_host_fragment).navigate(action)
+    }
+
+    override fun goToMap(areaCode: String) {
+        val action = NavGraphMealDirections.actionToMap(areaCode)
         findNavController(R.id.nav_host_fragment).navigate(action)
     }
 }

@@ -6,8 +6,16 @@
     app:startDestination="@id/meals">
 
     <action
-        android:id="@+id/action_to_onboardingWelcomeFragment"
+        android:id="@+id/action_to_mealDetail"
         app:destination="@id/mealDetail"
+        app:enterAnim="@anim/fade_in"
+        app:exitAnim="@anim/fade_out"
+        app:popEnterAnim="@anim/fade_in"
+        app:popExitAnim="@anim/fade_out" />
+
+    <action
+        android:id="@+id/action_to_map"
+        app:destination="@id/maps"
         app:enterAnim="@anim/fade_in"
         app:exitAnim="@anim/fade_out"
         app:popEnterAnim="@anim/fade_in"
@@ -24,6 +32,15 @@
         tools:layout="@layout/fragment_meal_detail">
         <argument
             android:name="strMeal"
+            app:argType="string" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/maps"
+        android:name="com.example.yape.ui.fragment.MapsFragment"
+        tools:layout="@layout/fragment_maps">
+        <argument
+            android:name="codeArea"
             app:argType="string" />
     </fragment>
 
