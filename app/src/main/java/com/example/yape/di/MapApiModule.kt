@@ -1,9 +1,9 @@
 package com.example.yape.di
 
 import com.example.yape.BuildConfig
-import com.example.yape.data.api.meal.ApiService
-import com.example.yape.data.api.meal.RemoteDataSource
-import com.example.yape.data.api.meal.RemoteDataSourceImpl
+import com.example.yape.data.api.map.ApiServiceMap
+import com.example.yape.data.api.map.MapRemoteDataSource
+import com.example.yape.data.api.map.MapRemoteDataSourceImpl
 import com.squareup.moshi.Moshi
 import dagger.Module
 import dagger.Provides
@@ -14,42 +14,44 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import java.util.concurrent.TimeUnit
+import javax.inject.Named
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object AppModule {
-
-    @Singleton
-    @Provides
-    fun provideMoshi(): Moshi = Moshi.Builder().build()
+object MapApiModule {
 
     @Provides
     @Singleton
-    fun provideAwsRetrofit(moshi: Moshi): Retrofit =
+    @Named("map")
+    fun provideMapRetrofit(moshi: Moshi): Retrofit =
         Retrofit.Builder()
-            .baseUrl("https://www.themealdb.com/api/json/")
+            .baseUrl("https://restcountries.com/")
             .client(getHttpClient())
             .addConverterFactory(MoshiConverterFactory.create(moshi))
             .build()
 
     @Provides
     @Singleton
-    fun provideAwsApiService(retrofit: Retrofit): ApiService =
-        retrofit.create(ApiService::class.java)
+    fun provideMapApiService(@Named("map") retrofit: Retrofit): ApiServiceMap =
+        retrofit.create(ApiServiceMap::class.java)
 
     @Provides
     @Singleton
-    fun provideRemoteDataSource(apiService: ApiService) =
-        RemoteDataSourceImpl(apiService) as RemoteDataSource
+    fun provideMapRemoteDataSource(apiService: ApiServiceMap) =
+        MapRemoteDataSourceImpl(apiService) as MapRemoteDataSource
 
     private fun getHttpClient(): OkHttpClient {
         val okHttpClientBuilder = OkHttpClient.Builder()
 
+        //Use the logging interceptor for API response log
         val httpLoggingInterceptor = HttpLoggingInterceptor(HttpLoggingInterceptor.Logger.DEFAULT)
 
+        //To set the "Accept-Language"
         if (BuildConfig.DEBUG) {
             httpLoggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
+            //If we need to know headers, please uncomment the following line
+            //httpLoggingInterceptor.level(HttpLoggingInterceptor.Level.HEADERS);
             okHttpClientBuilder
                 .addInterceptor(httpLoggingInterceptor)
                 .connectTimeout(15, TimeUnit.SECONDS)

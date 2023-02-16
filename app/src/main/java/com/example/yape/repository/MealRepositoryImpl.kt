@@ -1,6 +1,6 @@
 package com.example.yape.repository
 
-import com.example.yape.data.api.RemoteDataSource
+import com.example.yape.data.api.meal.RemoteDataSource
 import com.example.yape.data.model.BaseResponseData
 import com.example.yape.data.model.Meal
 import com.example.yape.data.model.MealDetail

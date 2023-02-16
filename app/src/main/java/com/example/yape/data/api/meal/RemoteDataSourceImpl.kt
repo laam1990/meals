@@ -1,4 +1,4 @@
-package com.example.yape.data.api
+package com.example.yape.data.api.meal
 
 import com.example.yape.data.model.BaseResponseData
 import com.example.yape.data.model.Meal

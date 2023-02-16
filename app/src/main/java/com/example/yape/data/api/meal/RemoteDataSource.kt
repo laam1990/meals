@@ -1,4 +1,4 @@
-package com.example.yape.data.api
+package com.example.yape.data.api.meal
 
 import com.example.yape.data.model.BaseResponseData
 import com.example.yape.data.model.Meal
@@ -6,7 +6,6 @@ import com.example.yape.data.model.MealDetail
 import retrofit2.http.Query
 
 interface RemoteDataSource {
-
     suspend fun getMeals(
         @Query("s") name: String
     ): BaseResponseData<MealDetail>

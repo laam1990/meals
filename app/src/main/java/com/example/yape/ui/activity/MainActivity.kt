@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.navigation.findNavController
 import com.example.yape.NavGraphMealDirections
 import com.example.yape.R
+import com.example.yape.data.model.LatLngViewData
 import com.example.yape.databinding.ActivityMainBinding
 import com.example.yape.ui.fragment.MealDetailFragment
 import com.example.yape.ui.fragment.MealFragment
@@ -26,8 +27,8 @@ class MainActivity : AppCompatActivity(), MealFragment.MealListListener, MealDet
         findNavController(R.id.nav_host_fragment).navigate(action)
     }
 
-    override fun goToMap(areaCode: String) {
-        val action = NavGraphMealDirections.actionToMap(areaCode)
+    override fun goToMap(latLngViewData: LatLngViewData) {
+        val action = NavGraphMealDirections.actionToMap(latLngViewData)
         findNavController(R.id.nav_host_fragment).navigate(action)
     }
 }

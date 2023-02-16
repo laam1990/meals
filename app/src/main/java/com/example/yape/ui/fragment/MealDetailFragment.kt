@@ -11,6 +11,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import coil.load
+import com.example.yape.data.model.LatLngViewData
 import com.example.yape.data.model.MealDetail
 import com.example.yape.data.util.Resource
 import com.example.yape.databinding.FragmentMealDetailBinding
@@ -78,6 +79,23 @@ class MealDetailFragment : Fragment() {
                 }
             }
         }
+
+        viewModel.latLngLiveData.observe(viewLifecycleOwner) { result ->
+            when (result) {
+                is Resource.Error -> {}
+                is Resource.Loading -> {}
+                is Resource.Success -> {
+                    result.data?.let {
+                        val lat = it[0].latlng?.get(0)
+                        val lng = it[0].latlng?.get(1)
+                        if (lat != null && lng != null) {
+                            val latLngViewData = LatLngViewData(lat, lng)
+                            listener?.goToMap(latLngViewData)
+                        }
+                    } ?: return@observe
+                }
+            }
+        }
     }
 
     private fun showSuccessView(mealDetail: MealDetail) {
@@ -88,11 +106,9 @@ class MealDetailFragment : Fragment() {
             tvMeal.text = mealDetail.strMeal
             configureRecyclerView(mealDetail.getIngredientsList())
 
-            val areaCode = mealDetail.convertToCountryCode()
-
             btnAction.setOnClickListener {
                 Toast.makeText(context, mealDetail.convertToCountryCode(), Toast.LENGTH_LONG).show()
-                listener?.goToMap(mealDetail.convertToCountryCode())
+                viewModel.getLatLngFromCodeArea(mealDetail.convertToCountryCode())
             }
         }
     }
@@ -107,6 +123,6 @@ class MealDetailFragment : Fragment() {
     }
 
     interface MealDetailListener {
-        fun goToMap(areaCode: String)
+        fun goToMap(latLngViewData: LatLngViewData)
     }
 }

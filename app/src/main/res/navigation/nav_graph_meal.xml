@@ -40,8 +40,8 @@
         android:name="com.example.yape.ui.fragment.MapsFragment"
         tools:layout="@layout/fragment_maps">
         <argument
-            android:name="codeArea"
-            app:argType="string" />
+            android:name="LatLng"
+            app:argType="com.example.yape.data.model.LatLngViewData" />
     </fragment>
 
 </navigation>
