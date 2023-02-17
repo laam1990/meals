@@ -22,7 +22,9 @@ class MealViewModel @Inject constructor(
         viewModelScope.launch {
             repository.getMeals(name).collect { result ->
                 when (result) {
-                    is Resource.Error -> {}
+                    is Resource.Error -> {
+                        action.value = MealActions.ShowError
+                    }
                     is Resource.Loading -> Unit
                     is Resource.Success -> {
                         if (!result.data.isNullOrEmpty()) {
@@ -40,7 +42,9 @@ class MealViewModel @Inject constructor(
         viewModelScope.launch {
             repository.getMealsFromIngredient(ingredient).collect { result ->
                 when (result) {
-                    is Resource.Error -> {}
+                    is Resource.Error -> {
+                        action.value = MealActions.ShowError
+                    }
                     is Resource.Loading -> Unit
                     is Resource.Success -> {
                         if (!result.data.isNullOrEmpty()) {
