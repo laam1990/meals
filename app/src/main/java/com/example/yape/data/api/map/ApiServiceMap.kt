@@ -7,7 +7,7 @@ import retrofit2.http.Path
 interface ApiServiceMap {
 
     /**
-     * Lookup full meal details by id
+     * get lat and lng to area code
      * https://restcountries.com/v3.1/alpha/{code}
      */
     @GET("v3.1/alpha/{code}")
