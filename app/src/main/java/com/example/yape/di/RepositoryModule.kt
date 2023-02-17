@@ -4,6 +4,7 @@ import com.example.yape.data.api.map.MapRemoteDataSource
 import com.example.yape.data.api.meal.RemoteDataSource
 import com.example.yape.repository.MapRepository
 import com.example.yape.repository.MapRepositoryImpl
+import com.example.yape.repository.MealMapperFacade
 import com.example.yape.repository.MealRepository
 import com.example.yape.repository.MealRepositoryImpl
 import dagger.Module
@@ -19,9 +20,11 @@ object RepositoryModule {
     @Provides
     @Singleton
     fun provideMealRepositoryImpl(
-        remoteDataSource: RemoteDataSource
+        remoteDataSource: RemoteDataSource,
+        mapperFacade: MealMapperFacade
     ) = MealRepositoryImpl(
-        remoteDataSource
+        remoteDataSource,
+        mapperFacade
     ) as MealRepository
 
     @Provides

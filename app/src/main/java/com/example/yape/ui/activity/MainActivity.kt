@@ -5,7 +5,7 @@ import android.os.Bundle
 import androidx.navigation.findNavController
 import com.example.yape.NavGraphMealDirections
 import com.example.yape.R
-import com.example.yape.data.model.LatLngViewData
+import com.example.yape.ui.model.LatLngViewData
 import com.example.yape.databinding.ActivityMainBinding
 import com.example.yape.ui.fragment.MealDetailFragment
 import com.example.yape.ui.fragment.MealFragment
@@ -20,6 +20,10 @@ class MainActivity : AppCompatActivity(), MealFragment.MealListListener, MealDet
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        return findNavController(R.id.nav_host_fragment).navigateUp()
     }
 
     override fun goToDetail(id: String) {

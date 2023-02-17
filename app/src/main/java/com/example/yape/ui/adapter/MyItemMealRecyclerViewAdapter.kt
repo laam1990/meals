@@ -6,22 +6,22 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import coil.load
-import com.example.yape.data.model.MealDetail
 import com.example.yape.databinding.FragmentMealBinding
+import com.example.yape.ui.model.MealViewData
 
 class MyItemMealRecyclerViewAdapter : RecyclerView.Adapter<MyItemMealRecyclerViewAdapter.MyViewHolder>() {
 
-    private val diffCallback = object : DiffUtil.ItemCallback<MealDetail>() {
+    private val diffCallback = object : DiffUtil.ItemCallback<MealViewData>() {
         override fun areItemsTheSame(
-            oldItem: MealDetail,
-            newItem: MealDetail
+            oldItem: MealViewData,
+            newItem: MealViewData
         ): Boolean {
             return oldItem == newItem
         }
 
         override fun areContentsTheSame(
-            oldItem: MealDetail,
-            newItem: MealDetail
+            oldItem: MealViewData,
+            newItem: MealViewData
         ): Boolean {
             return oldItem.idMeal == newItem.idMeal
         }
@@ -29,11 +29,11 @@ class MyItemMealRecyclerViewAdapter : RecyclerView.Adapter<MyItemMealRecyclerVie
 
     private val differ = AsyncListDiffer(this, diffCallback)
 
-    var meal: MutableList<MealDetail>
+    var meal: MutableList<MealViewData>
         get() = differ.currentList
         set(value) = differ.submitList(value)
 
-    var onItemClick: ((MealDetail) -> Unit)? = null
+    var onItemClick: ((MealViewData) -> Unit)? = null
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -61,10 +61,10 @@ class MyItemMealRecyclerViewAdapter : RecyclerView.Adapter<MyItemMealRecyclerVie
 
     inner class MyViewHolder(
         private val binding: FragmentMealBinding,
-        private val onItemClick: ((item: MealDetail) -> Unit)? = null
+        private val onItemClick: ((item: MealViewData) -> Unit)? = null
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(item: MealDetail) {
+        fun bind(item: MealViewData) {
             binding.apply {
                 vContentRow.setOnClickListener {
                     onItemClick?.invoke(item)

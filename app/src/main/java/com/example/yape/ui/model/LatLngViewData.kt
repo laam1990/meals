@@ -1,4 +1,4 @@
-package com.example.yape.data.model
+package com.example.yape.ui.model
 
 import java.io.Serializable
 

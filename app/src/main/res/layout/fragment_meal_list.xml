@@ -13,21 +13,79 @@
         style="@style/InputStyle"
         android:focusable="true"
         android:layout_marginStart="16dp"
-        android:layout_marginEnd="64dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <CheckBox
+        android:id="@+id/checkBoxMeal"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:minHeight="48dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/filter_meal"
+        android:buttonTint="@color/colorSecondary"
+        android:textColor="@color/white"
+        android:checked="true"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edit_text" />
+
+    <CheckBox
+        android:id="@+id/checkBoxIngredient"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:minHeight="48dp"
+        android:layout_marginStart="16dp"
+        android:text="@string/filter_ingredient"
+        android:buttonTint="@color/colorSecondary"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="@+id/checkBoxMeal"
+        app:layout_constraintStart_toEndOf="@+id/checkBoxMeal"
+        app:layout_constraintTop_toTopOf="@+id/checkBoxMeal" />
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/ly_empty_or_error"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/checkBoxMeal"
+        tools:visibility="invisible">
+
+        <TextView
+            android:id="@+id/tv_meal"
+            style="@style/Headline1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginBottom="16dp"
+            android:text="@string/no_meal"
+            app:layout_constraintBottom_toTopOf="@+id/gl_root_horizontal_35"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/ic_warning" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_meals"
         android:name="com.example.yape.ui.fragment.MealFragment"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_height="0dp"
         app:layoutManager="GridLayoutManager"
-        app:layout_constraintTop_toBottomOf="@+id/edit_text"
+        app:layout_constraintTop_toBottomOf="@+id/checkBoxMeal"
         tools:context=".ui.fragment.MealFragment"
+        android:paddingBottom="32dp"
         tools:listitem="@layout/fragment_meal"
         tools:orientation="vertical"
         tools:spanCount="3" />

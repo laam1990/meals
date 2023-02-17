@@ -1,15 +1,13 @@
 package com.example.yape.ui.viewmodel
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.yape.data.model.BaseResponseData
-import com.example.yape.data.model.Meal
-import com.example.yape.data.model.MealDetail
 import com.example.yape.data.util.Resource
 import com.example.yape.repository.MealRepository
+import com.example.yape.ui.action.MealActions
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -18,28 +16,40 @@ class MealViewModel @Inject constructor(
     private val repository: MealRepository
 ) : ViewModel() {
 
-    private val _mealListLiveData = MutableLiveData<Resource<BaseResponseData<MealDetail>>>()
-    val mealListLiveData: LiveData<Resource<BaseResponseData<MealDetail>>>
-        get() = _mealListLiveData
-
-    private val _mealFromIngredientLiveData = MutableLiveData<Resource<BaseResponseData<Meal>>>()
-    val mealFromIngredientLiveData: LiveData<Resource<BaseResponseData<Meal>>>
-        get() = _mealFromIngredientLiveData
-
-
-
+    private val action = MutableStateFlow<MealActions>(MealActions.Empty)
+    fun getAction(): StateFlow<MealActions> = action
     fun getMeals(name: String) {
         viewModelScope.launch {
-            repository.getMeals(name).collect {
-                _mealListLiveData.value = it
+            repository.getMeals(name).collect { result ->
+                when (result) {
+                    is Resource.Error -> {}
+                    is Resource.Loading -> Unit
+                    is Resource.Success -> {
+                        if (!result.data.isNullOrEmpty()) {
+                            action.value = MealActions.ShowSuccess(result.data)
+                        } else {
+                            action.value = MealActions.EmptyList
+                        }
+                    }
+                }
             }
         }
     }
 
     fun getMealsFromIngredient(ingredient: String) {
         viewModelScope.launch {
-            repository.getMealsFromIngredient(ingredient).collect {
-                _mealFromIngredientLiveData.value = it
+            repository.getMealsFromIngredient(ingredient).collect { result ->
+                when (result) {
+                    is Resource.Error -> {}
+                    is Resource.Loading -> Unit
+                    is Resource.Success -> {
+                        if (!result.data.isNullOrEmpty()) {
+                            action.value = MealActions.ShowSuccess(result.data)
+                        } else {
+                            action.value = MealActions.EmptyList
+                        }
+                    }
+                }
             }
         }
     }

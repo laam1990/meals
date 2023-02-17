@@ -7,20 +7,19 @@ import androidx.recyclerview.widget.GridLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.viewModels
-import com.example.yape.data.model.MealDetail
-import com.example.yape.data.util.Resource
+import androidx.lifecycle.lifecycleScope
 import com.example.yape.databinding.FragmentMealListBinding
+import com.example.yape.ui.action.MealActions
 import com.example.yape.ui.adapter.MyItemMealRecyclerViewAdapter
+import com.example.yape.ui.model.MealViewData
 import com.example.yape.ui.viewmodel.MealViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import java.util.Locale
 
-/**
- * A fragment representing a list of Items.
- */
 @AndroidEntryPoint
 class MealFragment : Fragment() {
 
@@ -40,7 +39,7 @@ class MealFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initViews()
-        initObservers()
+        collectFlows()
     }
 
     override fun onAttach(context: Context) {
@@ -60,27 +59,54 @@ class MealFragment : Fragment() {
 
     private fun initViews() {
         binding?.apply {
-            editText.doOnTextChanged { text, _, _, _ ->
-                viewModel.getMeals(text.toString().lowercase(Locale.getDefault()))
-            }
-        }
-    }
 
-    private fun initObservers() {
-        viewModel.mealListLiveData.observe(viewLifecycleOwner) { result ->
-            when (result) {
-                is Resource.Error -> {}
-                is Resource.Loading -> {}
-                is Resource.Success -> {
-                    result.data?.meals?.let {
-                        configureRecyclerView(it)
-                    }?: return@observe
+            editText.doOnTextChanged { text, _, _, _ ->
+                if (checkBoxMeal.isChecked) viewModel.getMeals(text.toString().lowercase(Locale.getDefault()))
+                if (checkBoxIngredient.isChecked) viewModel.getMealsFromIngredient(text.toString ().lowercase(Locale.getDefault()))
+            }
+
+            checkBoxMeal.setOnCheckedChangeListener { _, isChecked ->
+                editText.text.clear()
+                if (isChecked) {
+                    checkBoxIngredient.isChecked = false
+                }
+            }
+
+            checkBoxIngredient.setOnCheckedChangeListener { _, isChecked ->
+                editText.text.clear()
+                mealAdapter.meal = emptyList<MealViewData>().toMutableList()
+                if (isChecked) {
+                    checkBoxMeal.isChecked = false
                 }
             }
         }
     }
 
-    private fun configureRecyclerView(list: List<MealDetail>) {
+    private fun collectFlows() {
+        lifecycleScope.launch {
+            viewModel.getAction().collect { action ->
+                when (action) {
+                    MealActions.Empty -> Unit
+                    MealActions.ShowError -> {}
+                    MealActions.EmptyList -> {
+                        binding?.apply {
+                            rvMeals.visibility = View.GONE
+                            lyEmptyOrError.visibility = View.VISIBLE
+                        }
+                    }
+                    is MealActions.ShowSuccess -> {
+                        binding?.apply {
+                            if (!rvMeals.isVisible) rvMeals.visibility = View.VISIBLE
+                            lyEmptyOrError.visibility = View.GONE
+                        }
+                        configureRecyclerView(action.listMeal)
+                    }
+                }
+            }
+        }
+    }
+
+    private fun configureRecyclerView(list: List<MealViewData>) {
         binding?.rvMeals?.apply {
             layoutManager = GridLayoutManager(context, COLUMN_COUNTER)
             setHasFixedSize(true)
@@ -89,7 +115,7 @@ class MealFragment : Fragment() {
         }
 
         mealAdapter.onItemClick = { it ->
-            it.idMeal?.let { id ->
+            it.idMeal.let { id ->
                 listener?.goToDetail(id)
             }
         }

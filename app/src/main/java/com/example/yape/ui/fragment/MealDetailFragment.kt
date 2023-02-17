@@ -11,7 +11,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import coil.load
-import com.example.yape.data.model.LatLngViewData
+import com.example.yape.ui.model.LatLngViewData
 import com.example.yape.data.model.MealDetail
 import com.example.yape.data.util.Resource
 import com.example.yape.databinding.FragmentMealDetailBinding
@@ -27,7 +27,6 @@ class MealDetailFragment : Fragment() {
     private val args: MealDetailFragmentArgs by navArgs()
     private val ingredientsAdapter by lazy { IngredientsMealRecyclerViewAdapter() }
     private var listener: MealDetailListener? = null
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

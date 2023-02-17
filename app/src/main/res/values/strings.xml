@@ -5,4 +5,8 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="ingredients">Ingredients</string>
     <string name="origin_meal_google_maps">Origin Meal / Google Maps</string>
+    <string name="filter_meal">Filter meal</string>
+    <string name="filter_ingredient">Filter Ingredient</string>
+    <string name="no_meal">No meal</string>
+    <string name="_404_not_found">404 not found</string>
 </resources>

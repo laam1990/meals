@@ -41,7 +41,7 @@
         tools:layout="@layout/fragment_maps">
         <argument
             android:name="LatLng"
-            app:argType="com.example.yape.data.model.LatLngViewData" />
+            app:argType="com.example.yape.ui.model.LatLngViewData" />
     </fragment>
 
 </navigation>
